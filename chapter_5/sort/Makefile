@@ -1,15 +1,23 @@
-# This is an easier to use and modify makefile, but it is slightly more difficult to read than the simple one:
-#
+# -----------------------------------------------------------------
+# SOURCE: https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html#creating
+# -----------------------------------------------------------------
+
 # 'make depend' uses makedepend to automatically generate dependencies 
 #               (dependencies are added to end of Makefile)
 # 'make'        build executable file 'mycc'
 # 'make clean'  removes all .o and executable files
 #
 
+# -----------------------------------------------------------------
+# DECLARATION (Make your modifications here)
+# -----------------------------------------------------------------
+
 # define the C compiler to use
+#
 CC = gcc
 
 # define any compile-time flags
+#
 CFLAGS = -Wall -g
 
 # define any directories containing header files other than /usr/include
@@ -17,6 +25,7 @@ CFLAGS = -Wall -g
 INCLUDES = -I./include
 
 # define the C source files
+#
 SRCS = sort.c my_qsort.c numcmp.c
 
 # define the C object files 
@@ -30,14 +39,17 @@ SRCS = sort.c my_qsort.c numcmp.c
 OBJS = $(SRCS:.c=.o)
 
 # define the executable file 
+#
 MAIN = my_sort
 
-#
+# -----------------------------------------------------------------
+# GENERIC PART (You can leave it as it is)
+# -----------------------------------------------------------------
+
 # The following part of the makefile is generic; it can be used to 
 # build any executable just by changing the definitions above and by
 # deleting dependencies appended to the file from 'make depend'
 #
-
 .PHONY: depend clean
 
 all:    $(MAIN)
@@ -50,6 +62,7 @@ $(MAIN): $(OBJS)
 # it uses automatic variables $<: the name of the prerequisite of
 # the rule(a .c file) and $@: the name of the target of the rule (a .o file) 
 # (see the gnu make manual section about automatic variables)
+#
 .c.o:
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
 
