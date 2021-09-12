@@ -11,3 +11,8 @@ Each exercice will have the page it's taken from at the top of it, and each exer
 - Read the assignment and code it
 - Compile: ```$ gcc file_name.c -o file_name.out```
 - Run (with input file) ```$ cat test_file | ./file_name.out```
+
+I moved to using a **Makefile** as the projects got bigger and more complex.
+
+I followed a semi-generic template from this website: [https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html#creating](https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html#creating)
+
