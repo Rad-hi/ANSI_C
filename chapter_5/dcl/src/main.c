@@ -4,6 +4,10 @@
     Ex: Expand dcl to handle declarations with function argument types, 
         qualifiers like const, and so on. 
     ---
+    This is a hack AND DOESN'T WORK APPROPRIATELY !
+    Braces and brackets aren't recognized as function paramters.
+    This was a hard assignment, and I couldn't make it work entirely.
+    ---
     Personalizations: Made this into a multifile project, with a Makefile,
     a debug printing macro, and a customization to the reading functionality
     with read_input (gettoken.h).
@@ -32,6 +36,8 @@ char token[MAXTOKEN]; /* last token string */
 char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
 
+char parameters[MAXTOKEN]; /* Prameters; void, int, .. */
+
 char * line_ptr;
 char line[MAX_INPUT_LEN]; /* This is the pointer containing the line */
 char out[MAX_OUTPUT_LEN]; /* This is the output line */
@@ -43,14 +49,15 @@ int main(){
 
     line_ptr = line; /* Point the line_ptr to the first element of the line (char array) */
     
-    while(gettoken() != EOF){ /* 1st token on line */
+    //while(gettoken() != EOF){ /* 1st token on line */
+        gettoken();
         strcpy(datatype, token); /* is the datatype */
         out[0] = '\0';
         dcl(); /* parse rest of line */
         if (tokentype != ';')
             printf("syntax error\n");
-        printf("%s: %s %s\n", name, out, datatype);
-    }
+        printf("%s: %s %s%s\n", name, out, datatype, parameters);
+    //}
 
     return 0;
 }

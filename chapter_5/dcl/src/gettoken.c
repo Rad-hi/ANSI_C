@@ -7,6 +7,7 @@ static void ungetch(int c);
 extern char * line_ptr;
 extern int tokentype;
 extern char token[];
+extern char name[];
 
 /* return next token */
 int gettoken(void){
@@ -20,6 +21,13 @@ int gettoken(void){
             strcpy(token, "()");
             return tokentype = PARENS;
         }
+        else if(isalpha(c)){
+            for (*p++ = c; isalpha(c = getch()) || c == ' '; )
+                *p++ = c;
+            ungetch(c);
+            *p = '\0';
+            return tokentype = VARIABLE;
+        }
         else{
             ungetch(c);
             return tokentype = '(';
@@ -30,15 +38,27 @@ int gettoken(void){
         *p = '\0';
         return tokentype = BRACKETS;
     }
-    else if(isalpha(c)){
+    else if(isalpha(c) && !strlen(name)){ /* Alphanumeric and it's the name */
         for (*p++ = c; isalnum(c = getch()); )
             *p++ = c;
         *p = '\0';
         ungetch(c);
         return tokentype = NAME;
     }
-    else
+    else if(isalpha(c) && strlen(name)){ /* Alphanumeric but it's not the name; variable */
+        for (*p++ = c; isalpha(c = getch()) || c == ' '; )
+                *p++ = c;
+            ungetch(c);
+            *p = '\0';
+            return tokentype = VARIABLE;
+    }
+    else{
         return tokentype = c;
+    }
+}
+
+void return_token(int c){
+    ungetch(c);
 }
 
 /* Read the input line into the line_ptr */

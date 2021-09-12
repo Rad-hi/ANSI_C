@@ -6,7 +6,7 @@
 	#define MAX_OUTPUT_LEN          1024
 	
 
-//	#define DEBUG_EN /* --- To enable debug printing, uncomment this line --- */
+	//#define DEBUG_EN /* --- To enable debug printing, uncomment this line --- */
 
 	#ifdef DEBUG_EN /* Debug printing enabled */
 		#include <stdio.h>
@@ -15,6 +15,6 @@
 		#define DEBUG(STR, VAR)		/* Nothing */
 	#endif
 
-	enum {NAME, PARENS, BRACKETS};
+	enum {NAME, PARENS, BRACKETS, VARIABLE};
 
 #endif // __CONFIGS_H__

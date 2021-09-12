@@ -11,5 +11,6 @@
 
 	void read_input(char * s);
 	int gettoken(void);
+	void return_token(int c);
 
 #endif // __GET_TOKEN_H__
