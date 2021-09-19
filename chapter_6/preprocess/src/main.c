@@ -45,7 +45,7 @@ int main(int argc, char const *argv[]){
             break;
 
             case EMPTY_LINE:
-                printf("%s\n", line);
+                //printf("%s\n", line);
             break;
 
             case NORMAL_LINE: /* Found a line of code, update it */
