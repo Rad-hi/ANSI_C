@@ -16,3 +16,7 @@ I moved to using a **Makefile** as the projects got bigger and more complex.
 
 I followed a semi-generic template from this website: [https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html#creating](https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html#creating)
 
+
+## Next steps
+
+I added the data structures folder to explore the most basic data structures through C, and for that I will be following a YouTube series by [Jacob Sorber](https://www.youtube.com/c/JacobSorber). As for C, I know most of these data structures, but I decided to get back and learn them in a more fundamental level to gain deeper understanding of all of it.
