@@ -1,3 +1,6 @@
+#ifndef __LINKED_LISTS_H__
+#define __LINKED_LISTS_H__
+
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -40,3 +43,5 @@ void print_linked_list(node_t * head);
 /* ---------------------------------------------------------------------- */
 
 								/* TODO */
+
+#endif // __LINKED_LISTS_H__
