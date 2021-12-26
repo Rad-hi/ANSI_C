@@ -26,15 +26,16 @@ void add_tail(node_t * head, int val){
 	temporary->next->next = NULL;
 }
 
-/* ONE INDEXED */
+/* ZERO INDEXED */
 void add_at(node_t * head, int val, int index){
 	if(head == NULL) return; /* Already empty */
+	if(index <= 0) return; /* To add at 0, we need a double pointer to the head */
 
 	unsigned int i;
 	node_t * temporary;
 
 	/* Traverse the linked list until we either reach the end of it OR we reach the desired index */
-	for(temporary = head, i = 0; temporary->next && i < index-1; temporary = temporary->next, i++);
+	for(temporary = head, i = 0; i < index-1 && temporary->next; temporary = temporary->next, i++);
 
 	if(i != index-1) return; /* Index out of range */
 
@@ -44,8 +45,7 @@ void add_at(node_t * head, int val, int index){
 
 	/* The next two instructions must be in order */ 
 	new_node->next = temporary->next;
-	temporary->next = new_node;
-	
+	temporary->next = new_node;	
 }
 
 /* ---------------------------------------------------------------------- */
@@ -74,21 +74,24 @@ void remove_tail(node_t * head){
 	free(to_remove);
 }
 
-/* ONE INDEXED */
+/* ZERO INDEXED */
 void remove_at(node_t * head, int index){
 	if(head == NULL) return; /* Already empty */
+
+	if(index <= 0) return; /* To remove at 0, we need a double pointer to the head */
 
 	unsigned int i;
 	node_t * temporary;
 
 	/* traverse the linked list until we reach the before-last item */
-	for(temporary = head, i = 0; temporary->next->next && i < index-1; temporary = temporary->next, i++);
+	for(temporary = head, i = 0; i < index-1 && temporary->next->next; temporary = temporary->next, i++);
 
 	if(i != index-1) return; /* Index out of range */
 
 	node_t * to_remove = temporary->next;
 	temporary->next = temporary->next->next;
 	free(to_remove);
+
 }
 
 /* ---------------------------------------------------------------------- */
@@ -97,13 +100,8 @@ void remove_at(node_t * head, int index){
 
 node_t* find_at_value(node_t * head, int val){
 	if(head == NULL) return NULL;
-	
 	node_t * temporary = head;
-
-	while(temporary->next){
-		if(temporary->value == val) return temporary;
-		temporary = temporary->next;
-	}
+	do{ if(temporary->value == val) return temporary; } while((temporary = temporary->next));
 	return NULL;
 }
 
@@ -113,9 +111,9 @@ node_t* find_at_index(node_t * head, int index){
 	unsigned int i;
 	node_t * temporary;
 
-	for(temporary = head, i = 0; temporary->next && i < index-1; temporary = temporary->next, i++);	
+	for(temporary = head, i = 0; i < index && temporary->next; temporary = temporary->next, i++);
 
-	if(i != index-1) return NULL; /* Index out of range */
+	if(i != index) return NULL; /* Index out of range */
 	return temporary;
 }
 
