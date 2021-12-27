@@ -1,11 +1,15 @@
+/* External chaining hash-table */
+
 #ifndef __HASH_TABLE_H__
 #define __HASH_TABLE_H__
 
-#define MAX_TABLE_LEN				10
+#define MAX_TABLE_LEN				6
 #define MAX_NAME_LEN				20
 
 #include<stdlib.h>
 #include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
 
 /* 
 -- The vertical table is the hash-table.
@@ -26,14 +30,16 @@
 typedef struct person{
 	char name[MAX_NAME_LEN];
 	int age;
-	person * next;
+	struct person * next;
 }person_t;
 
-static unsigned int hash_function(char * str);
+/* ------------------------------------------------------------------------------- */
+/* ---------------------------------- FUNCTIONS ---------------------------------- */
+/* ------------------------------------------------------------------------------- */
 
 /* The hash-table will store pointers to the objects since the same method must function optimally for objects with any size */
-bool insert_hash(person_t** hash_table, char * name, int age);
-void delete_hash(person_t** hash_table, char * name);
+bool insert_in_hash_tab(person_t** hash_table, const char* name, int age);
+void delete_from_hash_tab(person_t** hash_table, const char* name);
 
 void print_hash_table(person_t** hash_table);
 
