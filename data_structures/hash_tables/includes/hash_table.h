@@ -10,6 +10,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdbool.h>
+#include <ctype.h>
 
 /* 
 -- The vertical table is the hash-table.
@@ -40,6 +41,8 @@ typedef struct person{
 /* The hash-table will store pointers to the objects since the same method must function optimally for objects with any size */
 bool insert_in_hash_tab(person_t** hash_table, const char* name, int age);
 void delete_from_hash_tab(person_t** hash_table, const char* name);
+person_t* find_in_hash_tab(person_t** hash_table, const char* name);
+person_t* find_no_case_in_hash_tab(person_t** hash_table, char* name);
 
 void print_hash_table(person_t** hash_table);
 

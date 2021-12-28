@@ -21,6 +21,10 @@ bool insert_in_hash_tab(person_t** hash_table, const char* name, int age){
 		strncpy(p->name, name, MAX_NAME_LEN);
 		p->next = hash_table[index];
 		hash_table[index] = p;
+		
+		/* Insert the actual info */
+		p->age = age;
+
 		return true;
 	}
 
@@ -30,6 +34,7 @@ bool insert_in_hash_tab(person_t** hash_table, const char* name, int age){
 
 void delete_from_hash_tab(person_t** hash_table, const char* name){
 	unsigned int index = hash_function(name);
+	bool done = false;
 
 	person_t * temporary = hash_table[index];
 	person_t * prev = NULL;
@@ -42,11 +47,40 @@ void delete_from_hash_tab(person_t** hash_table, const char* name){
 			else{
 				prev->next = temporary->next;
 			}
+			done = true;
 		}
 		else prev = temporary;
-	}while((temporary = temporary->next));
+	}while((temporary = temporary->next) && !done);
 
 	free(temporary);
+}
+
+person_t* find_in_hash_tab(person_t** hash_table, const char* name){
+	unsigned int index = hash_function(name);
+	person_t * temporary = hash_table[index];
+
+	if(temporary == NULL) return NULL; // Empty line
+
+	do{
+		if(strncmp(temporary->name, name, MAX_NAME_LEN) == 0) return temporary;
+	}while((temporary = temporary->next));
+
+	return NULL;
+}
+
+/* Since the original name could be inserted in any format, we can't do like -> tolower_string() 
+   on the name and calulate the hash .. so we simply need to search the whole table --> O(n)
+ */
+person_t* find_no_case_in_hash_tab(person_t** hash_table, char* name){
+	for(unsigned int i = 0; i < MAX_TABLE_LEN; i++){
+		person_t * temporary = NULL;
+		if((temporary = hash_table[i]) == NULL) continue; // Empty line
+		do{
+			if(strncasecmp(temporary->name, name, MAX_NAME_LEN) == 0) return temporary;
+		}while((temporary = temporary->next));
+	}
+
+	return NULL;
 }
 
 void print_hash_table(person_t** hash_table){

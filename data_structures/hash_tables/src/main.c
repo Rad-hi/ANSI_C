@@ -15,8 +15,17 @@ static const char names[][MAX_NAME_LEN] = {
 
 int main(int argc, char const *argv[]){
 
-	for(int i = 0; i < MAX_TABLE_LEN; i++) insert_in_hash_tab(hash_table, names[i], 15);
+	for(int i = 0; i < MAX_TABLE_LEN; i++) insert_in_hash_tab(hash_table, names[i], (i + 21));
 	print_hash_table(hash_table);
+	
+	person_t* found = find_in_hash_tab(hash_table, "Radhi");
+	printf("%d\n", found ? found->age : -1); // Expecting 21
+
+	found = find_in_hash_tab(hash_table, "RADHI");
+	printf("%d\n", found ? found->age : -1); // Expecting -1
+
+	found = find_no_case_in_hash_tab(hash_table, "RADHI");
+	printf("%d\n", found ? found->age : -1); // Expecting 21
 
 	delete_from_hash_tab(hash_table, "Radhi");
 	
