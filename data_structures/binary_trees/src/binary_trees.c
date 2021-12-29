@@ -11,7 +11,6 @@ static tree_node* create_node(int val){
 	return temporary;
 }
 
-#define MAX_TABS			10
 static char* get_tabs(char* tabs, const int level){
 	unsigned int i;
 	for(i = 0; i < level; i++)
@@ -20,6 +19,7 @@ static char* get_tabs(char* tabs, const int level){
 	return tabs;
 }
 
+#define MAX_TABS			10
 static void display_tree_rec(tree_node* node_ptr, int level){
 	
 	if(node_ptr == NULL){
