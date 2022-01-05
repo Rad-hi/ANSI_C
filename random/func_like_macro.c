@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* A debug macro for easy debugging code removal,
+   Comment the next line if you want to print nothing */
+#define ENABLE_DEBUG
+
+#ifdef ENABLE_DEBUG
+    #define DEBUG(X...) printf(X)
+#else   
+    #define DEBUG(X...) // Nothing
+#endif
+
 #define MIN(A, B) ({\
     /* We can assert that type A and type B are the same here */\
     typeof(A) _a = (A), _b = (B);\
@@ -23,22 +33,20 @@ int main(){
     int a, b;
     float c, d;
     char e, f;
-
     char o, t;
 
     a = 12, b = 1;
     c = 1.65, d = 1.66;
     e = 'J', f = 'j';
-
     o = 'a', t = 'b';
 
-    printf("MIN(%-4d, %-4d) --> %-4d\n", a, b, MIN(a, b));
-    printf("MAX(%2.2f, %2.2f) --> %2.2f\n", c, d, MAX(c, d));
-    printf("MIN(%-4c, %-4c) --> %-4c\n", e, f, MIN(e, f));
+    DEBUG("MIN(%-4d, %-4d) --> %-4d\n", a, b, MIN(a, b));
+    DEBUG("MAX(%2.2f, %2.2f) --> %2.2f\n", c, d, MAX(c, d));
+    DEBUG("MIN(%-4c, %-4c) --> %-4c\n", e, f, MIN(e, f));
 
-    printf("SWAP(%c, %c) ", o, t);
+    DEBUG("SWAP(%c, %c) ", o, t);
     SWAP(o, t);
-    printf("--> %c, %c\n", o, t);
+    DEBUG("--> %c, %c\n", o, t);
 
     return 0;
 }
