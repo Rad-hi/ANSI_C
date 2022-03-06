@@ -2,59 +2,82 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 
-#define COL 0
-#define ROW 0
+#define WIDTH     500
+#define HEIGHT    30
 
+#define COL       0
+#define ROW       0
+
+/* App ID: https://wiki.gnome.org/HowDoI/ChooseApplicationID */
+const char app_id[] = "Add.gtk";
+
+/* Signals */
 const char clicked_signal[] = "clicked";
 const char destroy_signal[] = "destroy";
 
+/* Labels */
 const char add_label[] = "ADD";
 const char res_label[] = "Result:";
 
 /* Global vars to be accessed by both main and the callback function */
 static GtkWidget *num_1, *num_2, *res;
 
-void add_two(GtkWidget* calculate, gpointer data);
+static void add_two(GtkWidget* calculate, gpointer data);
+static void activate (GtkApplication* app, gpointer user_data);
 
 /* 
   COMPILE WITH: 
-    gcc add_num.c -o add_num.o `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
+    gcc add_num.c -o add_num `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
+  
+  OR
+    gcc $( pkg-config --cflags gtk+-3.0 ) -o add_num add_num.c $( pkg-config --libs gtk+-3.0 )
   
   RUN WITH:
-    ./add_num.o
+    ./add_num
 */
-int main(int argc, char *argv[]){
-    GtkWidget *window, *grid, *add;
+int main(int argc, char **argv){
+    GtkApplication *app;
+    int status;
+    app = gtk_application_new (app_id, G_APPLICATION_FLAGS_NONE);
 
-    gtk_init(&argc, &argv);
+    g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
+    status = g_application_run(G_APPLICATION(app), argc, argv);
+    g_object_unref (app);
 
-    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    g_signal_connect(window, destroy_signal, G_CALLBACK(gtk_main_quit), NULL);
+    return status;
+}
 
-    grid = gtk_grid_new();
-    gtk_container_add(GTK_CONTAINER(window), grid);
+// The showroom for the application
+static void activate (GtkApplication* app, gpointer user_data){
+  GtkWidget *window, *grid, *add;
 
-    num_1 = gtk_entry_new();
-    gtk_grid_attach(GTK_GRID(grid), num_1, COL+0, ROW, 1, 1);
+  window = gtk_application_window_new(app);
+  gtk_window_set_title(GTK_WINDOW(window), "Add");
+  gtk_window_set_default_size (GTK_WINDOW (window), WIDTH, HEIGHT);
+  g_signal_connect(window, destroy_signal, G_CALLBACK(gtk_main_quit), NULL);
 
-    num_2 = gtk_entry_new();
-    gtk_grid_attach(GTK_GRID(grid), num_2, COL+1, ROW, 1, 1);
+  grid = gtk_grid_new();
+  gtk_container_add(GTK_CONTAINER(window), grid);
 
-    add = gtk_button_new_with_label(add_label);
-    g_signal_connect(add, clicked_signal, G_CALLBACK(add_two), NULL);
-    gtk_grid_attach(GTK_GRID(grid), add, COL+2, ROW, 1, 1);
+  num_1 = gtk_entry_new();
+  gtk_grid_attach(GTK_GRID(grid), num_1, COL+0, ROW, 1, 1);
 
-    res = gtk_label_new(res_label);
-    gtk_grid_attach(GTK_GRID(grid), res, COL+3, ROW, 1, 1);
+  num_2 = gtk_entry_new();
+  gtk_grid_attach(GTK_GRID(grid), num_2, COL+1, ROW, 1, 1);
 
-    gtk_widget_show_all(window);
-    gtk_main();
-    
-    return 0;
+  add = gtk_button_new_with_label(add_label);
+  g_signal_connect(add, clicked_signal, G_CALLBACK(add_two), NULL);
+  gtk_grid_attach(GTK_GRID(grid), add, COL+2, ROW, 1, 1);
+
+  res = gtk_label_new(res_label);
+  gtk_grid_attach(GTK_GRID(grid), res, COL+3, ROW, 1, 1);
+
+  gtk_widget_show_all(window);
+
 }
 
 // Callback function to the ADD button 
-void add_two(GtkWidget* calculate, gpointer data){
+static void add_two(GtkWidget* calculate, gpointer data){
     int _num_1 = atoi((char*)gtk_entry_get_text(GTK_ENTRY(num_1)));
     int _num_2 = atoi((char*)gtk_entry_get_text(GTK_ENTRY(num_2)));
 
