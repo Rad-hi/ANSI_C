@@ -12,12 +12,14 @@
 const char app_id[] = "Add.gtk";
 
 /* Signals */
-const char clicked_signal[] = "clicked";
-const char destroy_signal[] = "destroy";
+const char activate_signal[] = "activate";
+const char clicked_signal[]  = "clicked";
+const char destroy_signal[]  = "destroy";
 
 /* Labels */
-const char add_label[] = "ADD";
-const char res_label[] = "Result:";
+const char window_title[]    = "ADD Two";
+const char add_label[]       = "ADD";
+const char res_label[]       = "Result:";
 
 /* Global vars to be accessed by both main and the callback function */
 static GtkWidget *num_1, *num_2, *res;
@@ -40,7 +42,7 @@ int main(int argc, char **argv){
     int status;
     app = gtk_application_new (app_id, G_APPLICATION_FLAGS_NONE);
 
-    g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
+    g_signal_connect(app, activate_signal, G_CALLBACK (activate), NULL);
     status = g_application_run(G_APPLICATION(app), argc, argv);
     g_object_unref (app);
 
@@ -52,7 +54,7 @@ static void activate (GtkApplication* app, gpointer user_data){
   GtkWidget *window, *grid, *add;
 
   window = gtk_application_window_new(app);
-  gtk_window_set_title(GTK_WINDOW(window), "Add");
+  gtk_window_set_title(GTK_WINDOW(window), window_title);
   gtk_window_set_default_size (GTK_WINDOW (window), WIDTH, HEIGHT);
   g_signal_connect(window, destroy_signal, G_CALLBACK(gtk_main_quit), NULL);
 
